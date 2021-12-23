@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" """
+""" Test for amenityes """
 from tests.test_models.test_base_model import test_basemodel
 from models.amenity import Amenity
 
@@ -14,6 +14,6 @@ class test_Amenity(test_basemodel):
         self.value = Amenity
 
     def test_name2(self):
-        """ """
+        """ Test type for amenity """
         new = self.value()
-        self.assertEqual(type(new.name), str)
+        self.assertEqual(type(self.name), str)

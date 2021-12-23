@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" """
+""" Test for  Base Model """
 from models.base_model import BaseModel
 import unittest
 import datetime
@@ -76,9 +76,11 @@ class test_basemodel(unittest.TestCase):
 
     def test_kwargs_one(self):
         """ """
-        n = {'Name': 'test'}
-        with self.assertRaises(KeyError):
-            new = self.value(**n)
+        n = self.value()
+        copy = n.__dict__
+        copy.update({"1": "2"})
+        with self.assertRaises(TypeError):
+            new = self.value(**copy)
 
     def test_id(self):
         """ """
@@ -96,4 +98,4 @@ class test_basemodel(unittest.TestCase):
         self.assertEqual(type(new.updated_at), datetime.datetime)
         n = new.to_dict()
         new = BaseModel(**n)
-        self.assertFalse(new.created_at == new.updated_at)
+        self.assertFalse(new.created_at is new.updated_at)

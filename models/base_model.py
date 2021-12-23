@@ -25,7 +25,7 @@ class BaseModel:
         else:
             for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
-                    setattr(self, key, datetime.datetime.fromisoformat(value))
+                    setattr(self, key, datetime.fromisoformat(value))
                 elif key != "__class__":
                     setattr(self, key, value)
             if 'id' not in kwargs:
