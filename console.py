@@ -13,17 +13,17 @@ from models.review import Review
 
 
 def cast(value):
-        try:
-            int(value)
-            return "int"
-        except:
-            pass
+    try:
+        int(value)
+        return "int"
+    except Exception:
+        pass
 
-        try:
-            float(value)
-            return "float"
-        except:
-            pass
+    try:
+        float(value)
+        return "float"
+    except Exception:
+        pass
 
         return value
 
@@ -352,6 +352,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
