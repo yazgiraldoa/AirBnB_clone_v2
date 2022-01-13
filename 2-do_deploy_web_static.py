@@ -5,7 +5,6 @@ to your web servers, using the function do_deploy
 """
 from fabric.api import *
 from datetime import datetime
-from os import path
 
 env.hosts = ['34.138.220.245', '34.235.143.24']
 
@@ -14,13 +13,12 @@ def do_pack():
     """
     Function that compress a folder (to targz) with Fabric
     """
-    name = "web_static_" + datetime.now().strftime('%Y%m%d%H%M%S')
-    local("mkdir -p versions")
-    local("tar -czvf versions/" + name + ".tgz web_static")
-    f_path = "versions/{}.tgz".format(name)
-    if (path.exists(f_path) and path.getsize(f_path)) > 0:
-        return f_path
-    else:
+    try:
+        name = "web_static_" + datetime.now().strftime('%Y%m%d%H%M%S')
+        local("mkdir -p versions")
+        local("tar -czvf versions/" + name + ".tgz web_static")
+        return name
+    except Exception:
         return None
 
 
@@ -28,8 +26,6 @@ def do_deploy(archive_path):
     """
     Function that deploys a local file to a server
     """
-    if not path.exists(archive_path):
-        return False
     try:
         f_path = "/data/web_static/releases/"
         file_ext = archive_path.split("/")[-1]
