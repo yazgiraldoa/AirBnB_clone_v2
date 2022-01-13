@@ -28,6 +28,8 @@ def do_deploy(archive_path):
     """
     Function that deploys a local file to a server
     """
+    if not path.exists(archive_path):
+        return False
     try:
         f_path = "/data/web_static/releases/"
         file_ext = archive_path.split("/")[-1]
