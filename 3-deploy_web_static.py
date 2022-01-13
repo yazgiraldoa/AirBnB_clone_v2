@@ -14,12 +14,13 @@ def do_pack():
     """
     Function that compress a folder (to targz) with Fabric
     """
-    try:
-        name = "web_static_" + datetime.now().strftime('%Y%m%d%H%M%S')
-        local("mkdir -p versions")
-        local("tar -czvf versions/" + name + ".tgz web_static")
-        return name
-    except Exception:
+    name = "web_static_" + datetime.now().strftime('%Y%m%d%H%M%S')
+    local("mkdir -p versions")
+    local("tar -czvf versions/" + name + ".tgz web_static")
+    f_path = "versions/{}.tgz".format(name)
+    if (path.exists(f_path) and path.getsize(f_path)) > 0:
+        return f_path
+    else:
         return None
 
 
@@ -49,7 +50,6 @@ def deploy():
     Function compresses a local file and deploys it to a server
     """
     archive_path = do_pack()
-    if not path.exists(archive_path):
-        return False
-    status = do_deploy(archive_path)
-    return status
+    if archive_path:
+        return do_deploy(archive_path)
+    return False
