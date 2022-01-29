@@ -24,7 +24,7 @@ def hbnb():
 def c_is_fun(text):
     """Function that returns C + input text"""
     output = text.replace('_', ' ')
-    return f"C {escape(output)}"
+    return "C {}".format(output)
 
 
 if __name__ == "__main__":
