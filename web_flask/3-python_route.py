@@ -24,7 +24,7 @@ def hbnb():
 def c_is_fun(text):
     """Function that returns C + input text"""
     output = text.replace('_', ' ')
-    return f"C {escape(output)}"
+    return "C {}".format(output)
 
 
 @app.route('/python/<text>', strict_slashes=False)
@@ -32,7 +32,7 @@ def c_is_fun(text):
 def python_is_cool(text='is cool'):
     """Function that returns Python + input text"""
     output = text.replace('_', ' ')
-    return f"Python {escape(output)}"
+    return "Python {}".format(output)
 
 
 if __name__ == "__main__":
