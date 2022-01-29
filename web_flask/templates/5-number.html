@@ -4,6 +4,8 @@
         <TITLE>HBNB</TITLE>
     </HEAD>
     <BODY>
-        <h1>Number: {{ number }}</h1>
+        {% if number %}
+            <H1>Number: {{ number }}</H1>
+        {% endif %}
     </BODY>
 </HTML>
