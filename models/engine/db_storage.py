@@ -46,16 +46,20 @@ class DBStorage:
             'User': User, 'Place': Place, 'Review': Review,
             'State': State, 'City': City, 'Amenity': Amenity
         }
-
-        if cls is None:
+        if cls:
+            if cls in classes:
+                data = self.__session.query(classes[cls]).all()
+                for obj in data:
+                    new_dict[f"{obj.__class__.__name__}.{obj.id}"] = obj
+            else:
+                data = self.__session.query(cls).all()
+                for obj in data:
+                    new_dict[f"{obj.__class__.__name__}.{obj.id}"] = obj
+        else:
             for class_name in classes:
                 data = self.__session.query(classes[class_name]).all()
                 for obj in data:
                     new_dict[f"{obj.__class__.__name__}.{obj.id}"] = obj
-        elif (cls in classes):
-            data = self.__session.query(classes[cls]).all()
-            for obj in data:
-                new_dict[f"{obj.__class__.__name__}.{obj.id}"] = obj
 
         return new_dict
 
@@ -75,7 +79,10 @@ class DBStorage:
     def reload(self):
         """Configure and create a session"""
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine,
-                                       expire_on_commit=False)
-        Session = scoped_session(session_factory)
+        Session = sessionmaker(bind=self.__engine,
+                               expire_on_commit=False)
         self.__session = Session()
+
+    def close(self):
+        """Public method to close the session"""
+        self.__session.close()

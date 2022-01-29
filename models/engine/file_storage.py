@@ -68,3 +68,10 @@ class FileStorage:
                     key_obj = key
                     break
             del self.__objects[key_obj]
+
+    def close(self):
+        """
+        Instance public method that calls reload method
+        for deserializing the JSON file to objects
+        """
+        self.reload()
