@@ -2,8 +2,8 @@
 """ State Module for HBNB project """
 from os import getenv
 from sqlalchemy import (create_engine)
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm import scoped_session
+from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm.session import Session
 from sqlalchemy.sql.schema import MetaData
 from models.base_model import Base
 from models.amenity import Amenity
