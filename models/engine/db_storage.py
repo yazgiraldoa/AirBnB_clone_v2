@@ -28,7 +28,6 @@ class DBStorage:
     """
     __engine = None
     __session = None
-    clases_objects = [User, State, City, Amenity, Place, Review]
 
     def __init__(self):
         self.__engine = create_engine(config, pool_pre_ping=True)
@@ -40,18 +39,28 @@ class DBStorage:
             metadata.drop_all()
 
     def all(self, cls=None):
-        """ This method returns all objects depending of the class name """
-        result = {}
-
+        """Retrives a dictionary of class instances"""
+        new_dict = {}
+        classes = {
+            'User': User, 'Place': Place, 'Review': Review,
+            'State': State, 'City': City, 'Amenity': Amenity
+        }
         if cls:
-            for item in self.__session.query(cls).all():
-                result[item.__class__.__name__ + '.' + item.id] = item
+            if cls in classes.keys():
+                data = self.__session.query(classes[cls]).all()
+                for obj in data:
+                    new_dict[obj.__class__.__name__ + '.' + obj.id] = obj
+            else:
+                data = self.__session.query(cls).all()
+                for obj in data:
+                    new_dict[obj.__class__.__name__ + '.' + obj.id] = obj
         else:
-            for clase_in in self.clases_objects:
-                for item in self.__session.query(clase_in).all():
-                    result[item.__class__.__name__ + '.' + item.id] = item
+            for class_name in classes:
+                data = self.__session.query(classes[class_name]).all()
+                for obj in data:
+                    new_dict[obj.__class__.__name__ + '.' + obj.id] = obj
 
-        return result
+        return new_dict
 
     def new(self, obj):
         """ Add new elements """
